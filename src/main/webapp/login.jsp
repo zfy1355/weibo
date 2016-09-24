@@ -21,13 +21,13 @@
 </table>
 </form>
 <h2>已经注册了? 请直接登陆</h2>
-<form method="POST" action="login.php">
+<form method="POST" action="login">
 <table><tr>
-  <td>用户名</td><td><input type="text" name="username"></td>
+  <td>用户名</td><td><input type="text" name="user"></td>
   </tr><tr>
-  <td>密码:</td><td><input type="password" name="password"></td>
+  <td>密码:</td><td><input type="password" name="passwd"></td>
   </tr><tr>
-  <td colspan="2" align="right"><input type="submit" name="doit" value="Login"></td>
+  <td colspan="2" align="right"><span style="color:red">${requestScope.errMsg1 }</span><input type="submit" name="doit" value="Login"></td>
 </tr></table>
 </form>
 </div>

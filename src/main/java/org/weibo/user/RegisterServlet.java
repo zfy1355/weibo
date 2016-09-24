@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.weibo.util.RedisUtils;
 
-import redis.RedisUtil;
-
 public class RegisterServlet extends BaseServlet{
 
 	/**
