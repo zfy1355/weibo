@@ -1,0 +1,8 @@
+<servlet>
+     <servlet-name>register</servlet-name>
+     <servlet-class>org.weibo.user.RegisterServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>register</servlet-name>
+    <url-pattern>/registerUser</url-pattern>
+</servlet-mapping>
