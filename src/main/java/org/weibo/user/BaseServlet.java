@@ -7,18 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class BaseServlet extends HttpServlet{
+public abstract class BaseServlet extends HttpServlet{
+	private static final long serialVersionUID = 8089875410008505689L;
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8089875410008505689L;
-	
-	public void doPost() throws ServletException, IOException{
-		doPost(request, response);
-	}
+	public abstract void doPost() throws ServletException, IOException ;
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -27,20 +21,6 @@ public class BaseServlet extends HttpServlet{
 		response = resp;
 		response.setHeader("Content-Encoding", "utf-8");
 		doPost();
-	}
-	
-	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		System.out.println("get Method");
-		System.out.println(req.getParameter("name"));
-		System.out.println(req.getParameter("password"));
-		super.doGet(req, resp);
-	}
-	
-	protected void printMsg(String str) throws IOException{
-		response.getWriter().write(str);
 	}
 	
 }

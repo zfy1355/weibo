@@ -15,3 +15,12 @@
     <servlet-name>login</servlet-name>
     <url-pattern>/login</url-pattern>
 </servlet-mapping>
+
+<servlet>
+     <servlet-name>post</servlet-name>
+     <servlet-class>org.weibo.post.PostServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>post</servlet-name>
+    <url-pattern>/post</url-pattern>
+</servlet-mapping>

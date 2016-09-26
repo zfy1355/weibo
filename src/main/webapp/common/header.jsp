@@ -15,8 +15,8 @@
 <a href="/"><img style="border:none" src="logo.png" width="192" height="85" alt="Retwis"></a>
 <div id="navbar">
 <a href="index.php">主页</a>
-| <a href="timeline.php">热点</a>
+| <a href="/timeline">热点</a>
 
-| <a href="logout.php">退出</a>
+| <a href="/login?username=${username}">退出</a>
 
 </div>

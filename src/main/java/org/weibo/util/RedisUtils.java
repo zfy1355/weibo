@@ -59,5 +59,35 @@ public class RedisUtils {
 			pool.returnResource(jedis);
 		}
 	}
+	
+	public static Long getList(String keys){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+			return jedis.incr("global:"+keys);
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
+	
+	public static void lpush(String stackName,String value){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+			jedis.lpush(stackName, value);
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
+	
+	public static String ltrim(String stackName,long start, long end){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+			return jedis.ltrim(stackName, start, end);
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
 
 }
