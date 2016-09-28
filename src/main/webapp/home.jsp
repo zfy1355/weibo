@@ -10,15 +10,15 @@ ${username}, 有啥感想?
 </table>
 </form>
 <div id="homeinfobox">
-0 粉丝<br>
-0 关注<br>
+${fansCount} 粉丝<br>
+${followingCount} 关注<br>
 </div>
 </div>
 <div class="post">
-<c:forEach items="${posts} }"  var="post">
+<%-- <c:forEach items="${posts} }"  var="post">
 <a class="username" href="profile.php?u=test">${post.username }</a> ${post.content }<br>
 <i>${post.time } 分钟前 通过 web发布</i>
-</c:forEach>
+</c:forEach> --%>
 </div>
 
 <%@include file="common/footer.jsp" %>

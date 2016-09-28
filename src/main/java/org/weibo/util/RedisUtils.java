@@ -2,11 +2,16 @@ package org.weibo.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import org.weibo.entity.Post;
+import org.weibo.entity.User;
 
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.JedisShardInfo;
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
+import redis.clients.jedis.SortingParams;
 import redis.clients.util.Hashing;
 import redis.clients.util.Sharded;
 
@@ -89,5 +94,38 @@ public class RedisUtils {
 			pool.returnResource(jedis);
 		}
 	}
+	
+	public static List<String> getNew10UserList(){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+
+			return jedis.sort("newuserlist",new SortingParams().by("sore").get("user:userid:*:username").limit(0, 10));
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
+	
+	public static String hmset(String key, Map<String, String> map){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+			return jedis.hmset(key, map);
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
+	
+	public static List<String>	hmget(String key, String...fields ){
+		ShardedJedis jedis = null;
+		try{
+			jedis = pool.getResource();
+			return jedis.hmget(key, fields);
+		}finally{
+			pool.returnResource(jedis);
+		}
+	}
+	
+	
 
 }

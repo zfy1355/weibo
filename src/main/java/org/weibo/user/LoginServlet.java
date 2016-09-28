@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.weibo.util.RedisUtils;
 import org.weibo.util.SessionManager;
 
+@WebServlet("/login")
 public class LoginServlet extends BaseServlet{
 
 	private static final long serialVersionUID = 8089875410008505689L;
@@ -35,9 +38,10 @@ public class LoginServlet extends BaseServlet{
 			writeOldAttribute(request);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else{
-			request.setAttribute("username", username);
+			Cookie cookie = new Cookie("username", username);
+			response.addCookie(cookie);
 			SessionManager.addUser(id);
-			request.getRequestDispatcher("/home").forward(request, response);
+			request.getRequestDispatcher("/home.jsp").forward(request, response);
 		}
 	}
 	

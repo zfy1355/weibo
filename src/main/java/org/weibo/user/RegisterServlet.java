@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.Enumeration;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.weibo.util.RedisUtils;
 
+@WebServlet("/registerUser")
 public class RegisterServlet extends BaseServlet{
 
 	/**
@@ -40,6 +42,7 @@ public class RegisterServlet extends BaseServlet{
 			RedisUtils.setKey("user:userid:"+ id+":username",username);
 			RedisUtils.setKey("user:userid:"+ id+":password",password);
 			RedisUtils.setKey("user:username:"+username+":userid", id+"");
+			RedisUtils.lpush("newuserlist", id+"");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
