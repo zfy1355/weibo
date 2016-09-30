@@ -1,4 +1,4 @@
-package org.weibo.post;
+package org.weibo.servlet.post;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,7 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 
 import org.weibo.entity.User;
-import org.weibo.user.BaseServlet;
+import org.weibo.servlet.user.BaseServlet;
 import org.weibo.util.RedisUtils;
 import org.weibo.util.SessionManager;
 

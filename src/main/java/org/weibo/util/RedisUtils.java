@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.weibo.entity.Post;
 import org.weibo.entity.User;
 
@@ -124,6 +125,19 @@ public class RedisUtils {
 		}finally{
 			pool.returnResource(jedis);
 		}
+	}
+
+	public static User  getUserByUsername(String username) {
+		String userid = getKey("user:username:"+username+":userid");
+		if(StringUtils.isEmpty(userid))
+			return null;
+		User user = new User();
+		user.setFollowerC(Integer.parseInt(getKey("user:userid:"+userid+":followerC")));
+		user.setFollowingC(Integer.parseInt(getKey("user:userid:"+userid+":followingC")));
+		user.setUsername(username);
+		user.setId(userid);
+		user.setPassword(getKey("user:userid:"+userid+":password"));
+		return user;
 	}
 	
 	

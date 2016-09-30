@@ -6,6 +6,8 @@ public class User {
 	private String id;
 	private String username;
 	private String password;
+	private Integer followerC;
+	private Integer followingC;
 	private List<Post> posts;
 	
 	
@@ -33,9 +35,17 @@ public class User {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+	public Integer getFollowerC() {
+		return followerC;
+	}
+	public void setFollowerC(Integer followerC) {
+		this.followerC = followerC;
+	}
+	public Integer getFollowingC() {
+		return followingC;
+	}
+	public void setFollowingC(Integer followingC) {
+		this.followingC = followingC;
+	}
 	
-	
-	
-	
-
 }

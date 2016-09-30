@@ -1,4 +1,4 @@
-package org.weibo.user;
+package org.weibo.servlet.user;
 
 import java.io.IOException;
 import java.util.Enumeration;
