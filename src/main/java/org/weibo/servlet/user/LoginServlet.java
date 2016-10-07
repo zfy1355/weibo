@@ -41,7 +41,7 @@ public class LoginServlet extends BaseServlet{
 			Cookie cookie = new Cookie("username", username);
 			response.addCookie(cookie);
 			SessionManager.addUser(id);
-			request.getRequestDispatcher("/home.jsp").forward(request, response);
+			response.sendRedirect("/home");
 		}
 	}
 	

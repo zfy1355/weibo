@@ -3,7 +3,7 @@
 <h2>热点</h2>
 <i>最新注册用户(redis中的sort用法)</i><br>
 <c:forEach var="user" items="${users }">
-	<div><a class="username" href="/profile?user=${user }">${user }</a> </div>
+	<div><a class="username" href="/profile?username=${user }">${user }</a> </div>
 </c:forEach>
 
 

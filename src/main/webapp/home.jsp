@@ -2,7 +2,7 @@
 <%@include file="/common/header.jsp" %>
 <div id="postform">
 <form method="POST" action="/post">
-${username}, 有啥感想?
+${user.username}, 有啥感想?
 <br>
 <table>
 <tr><td><textarea cols="70" rows="3" name="content"  id="content"></textarea></td><input type="hidden"  id="username" name="username" value="${username}"/></td></tr>
@@ -10,19 +10,20 @@ ${username}, 有啥感想?
 </table>
 </form>
 <div id="homeinfobox">
-${fansCount} 粉丝<br>
-${followingCount} 关注<br>
+${user.followerC} 粉丝<br>
+${user.followingC} 关注<br>
 </div>
 </div>
-<div class="post">
-<%-- <c:forEach items="${posts} }"  var="post">
-<a class="username" href="profile.php?u=test">${post.username }</a> ${post.content }<br>
-<i>${post.time } 分钟前 通过 web发布</i>
-</c:forEach> --%>
+<div class="post">${user.posts}
+<c:forEach items="${user.posts} }"  var="p">
+${p.length }
+<%-- <a class="username" href="profile.php?u=test">${p.username }</a> ${p.content }<br>
+<i>${post.time } --%> 分钟前 通过 web发布</i>
+</c:forEach> 
 </div>
 
 <%@include file="common/footer.jsp" %>
-<<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 <script type="text/javascript">
 	function doPost(){
 		$.ajax({

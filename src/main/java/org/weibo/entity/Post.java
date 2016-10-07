@@ -4,6 +4,7 @@ public class Post {
 	private String id;
 	private String content;
 	private Long time;
+	private User user;
 	public String getId() {
 		return id;
 	}
@@ -22,7 +23,11 @@ public class Post {
 	public void setTime(Long time) {
 		this.time = time;
 	}
-	
-	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 }

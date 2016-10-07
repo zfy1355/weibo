@@ -8,6 +8,7 @@
 <meta content="text/html; charset=UTF-8" http-equiv="content-type">
 <title>Retwis - Example Twitter clone based on the Redis Key-Value DB</title>
 <link href="../css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
 </head>
 <body>
 <div id="page">
@@ -17,6 +18,6 @@
 <a href="index">主页</a>
 | <a href="/timeline">热点</a>
 
-| <a href="/login?username=${username}">退出</a>
+| <a href="/logout">退出</a>
 
 </div>

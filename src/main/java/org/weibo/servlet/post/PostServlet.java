@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 
 import org.weibo.entity.User;
 import org.weibo.servlet.user.BaseServlet;
@@ -24,7 +25,15 @@ public class PostServlet extends BaseServlet{
 	
 	public void doPost() throws ServletException, IOException {
 		String content = request.getParameter("content");
-		User user = SessionManager.getUser(request.getParameter("username"));
+		
+		Cookie[] cookies = request.getCookies();
+		String username = null;
+		for(Cookie cookie : cookies){
+			if("username".equals(cookie.getName()))
+				username = cookie.getValue();
+		}
+		User user = RedisUtils.getUserByUsername(username);
+		
 		Long postid = RedisUtils.getIncr("global:postid");
 		Map<String,String> postMap = new HashMap<String, String>();
 		postMap.put("postid", postid+"");
@@ -36,6 +45,7 @@ public class PostServlet extends BaseServlet{
 		RedisUtils.setKey("post:postid:"+postid+":userid", user.getId());
 		RedisUtils.setKey("post:postid:"+postid+":time", new Date().getTime()+"");
 		RedisUtils.setKey("post:postid:"+postid+":content", content);
+		RedisUtils.sadd("post:poser:"+user.getId()+":postid", postid+"");
 		 PrintWriter out = response.getWriter();
 		 out.print("1");
 	}

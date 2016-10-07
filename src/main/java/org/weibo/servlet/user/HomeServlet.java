@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.weibo.entity.User;
 import org.weibo.util.RedisUtils;
@@ -24,7 +26,14 @@ public class HomeServlet extends BaseServlet{
 			}
 			User user = RedisUtils.getUserByUsername(username);
 			request.setAttribute("user", user);
+			request.setAttribute("posts", "");
 			request.getRequestDispatcher("/home.jsp").forward(request, response);
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		super.doPost(req, resp);
 	}
 	
 	

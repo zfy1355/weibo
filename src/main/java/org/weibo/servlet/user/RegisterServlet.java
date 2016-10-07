@@ -31,18 +31,14 @@ public class RegisterServlet extends BaseServlet{
 		if(!password.equals(password2)){
 			request.setAttribute("errMsg", "两次填写信息不一致！");
 		}
-		if(!StringUtils.isEmpty(RedisUtils.getKey("user:username:"+username+":userid"))){
+		if(!RedisUtils.existUser(username)){
 			request.setAttribute("errMsg", "该用户名已注册！");
 		}
 		if(request.getAttribute("errMsg")!=null){
 			writeOldAttribute(request);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else{
-			Long id = RedisUtils.getIncr("userid");
-			RedisUtils.setKey("user:userid:"+ id+":username",username);
-			RedisUtils.setKey("user:userid:"+ id+":password",password);
-			RedisUtils.setKey("user:username:"+username+":userid", id+"");
-			RedisUtils.lpush("newuserlist", id+"");
+			RedisUtils.registerUser(username,password);
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
