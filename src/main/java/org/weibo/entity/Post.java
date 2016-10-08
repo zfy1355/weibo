@@ -1,10 +1,10 @@
 package org.weibo.entity;
 
-public class Post {
+public class Post implements Comparable {
 	private String id;
 	private String content;
-	private Long time;
-	private User user;
+	private String time;
+	private String username;
 	public String getId() {
 		return id;
 	}
@@ -17,17 +17,23 @@ public class Post {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Long getTime() {
+	public String getTime() {
 		return time;
 	}
-	public void setTime(Long time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
-	public User getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
-	public void setUser(User user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	@Override
+	public int compareTo(Object o) {
+		Post post  = (Post)o;
+		
+		return (Integer.parseInt(post.getId()) - Integer.parseInt(this.id));
 	}
 
 }

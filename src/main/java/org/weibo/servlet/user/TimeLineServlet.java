@@ -1,6 +1,7 @@
 package org.weibo.servlet.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.weibo.entity.Post;
 import org.weibo.util.RedisUtils;
 
 @WebServlet("/timeline")
@@ -17,8 +19,15 @@ public class TimeLineServlet extends BaseServlet{
 	
 	public void doPost()
 			throws ServletException, IOException {
-			List users  = RedisUtils.getNew10UserList();
+			List<String> users  = RedisUtils.getNew10UserList();
+			List<String> postIds = RedisUtils.getNew50PostList();
+			List<Post> posts = new ArrayList<Post>();
+			for(String id:postIds){
+				Post p = RedisUtils.getPostById(id);
+				posts.add(p);
+			}
 			request.setAttribute("users", users);
+			request.setAttribute("posts", posts);
 			request.getRequestDispatcher("/timeline.jsp").forward(request, response);
 	}
 	

@@ -26,7 +26,6 @@ public class HomeServlet extends BaseServlet{
 			}
 			User user = RedisUtils.getUserByUsername(username);
 			request.setAttribute("user", user);
-			request.setAttribute("posts", "");
 			request.getRequestDispatcher("/home.jsp").forward(request, response);
 	}
 	

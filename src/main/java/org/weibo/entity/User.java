@@ -1,6 +1,6 @@
 package org.weibo.entity;
 
-import java.util.List;
+import java.util.Set;
 
 public class User {
 	private String id;
@@ -8,7 +8,7 @@ public class User {
 	private String password;
 	private Integer followerC;
 	private Integer followingC;
-	private List<Post> posts;
+	private Set<Post> posts;
 	
 	
 	public String getId() {
@@ -29,10 +29,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<Post> getPosts() {
+	public Set<Post> getPosts() {
 		return posts;
 	}
-	public void setPosts(List<Post> posts) {
+	public void setPosts(Set<Post> posts) {
 		this.posts = posts;
 	}
 	public Integer getFollowerC() {

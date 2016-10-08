@@ -6,17 +6,15 @@
 <c:if test="${isFollowing==true}"><a href="#" class="button" onclick="f(0)"id="follow">取消关注</a></c:if>
 <c:if test="${isFollowing==false}"><a href="#" class="button"  onclick="f(1)" id="follow">关注ta</a></c:if>
 
-<div class="post">
-<a class="username" href="profile?username=test">test</a> 
-world<br>
-<i>11 分钟前 通过 web发布</i>
-</div>
 
+
+<c:forEach items="${posts}" var="p">
 <div class="post">
-<a class="username" href="profile?username=test">test</a>
-hello<br>
-<i>22 分钟前 通过 web发布</i>
+<c:set var="time"  value="${p.time }"></c:set>
+ <a class="username" href="profile?username=${p.username }">${p.username }</a> ${p.content }<br/>
+<i>${p.time }  通过 web发布</i><br/>
 </div>
+</c:forEach> 
 <%@include file="common/footer.jsp"%>
 <script type="text/javascript">
 	function f(){

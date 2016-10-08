@@ -5,6 +5,7 @@ import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,7 +32,7 @@ public class RegisterServlet extends BaseServlet{
 		if(!password.equals(password2)){
 			request.setAttribute("errMsg", "两次填写信息不一致！");
 		}
-		if(!RedisUtils.existUser(username)){
+		if(RedisUtils.existUser(username)){
 			request.setAttribute("errMsg", "该用户名已注册！");
 		}
 		if(request.getAttribute("errMsg")!=null){
@@ -39,7 +40,9 @@ public class RegisterServlet extends BaseServlet{
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else{
 			RedisUtils.registerUser(username,password);
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			Cookie cookie = new Cookie("username", username);
+			response.addCookie(cookie);
+			request.getRequestDispatcher("/home").forward(request, response);
 		}
 	}
 	

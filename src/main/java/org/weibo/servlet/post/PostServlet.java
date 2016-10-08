@@ -38,16 +38,21 @@ public class PostServlet extends BaseServlet{
 		Map<String,String> postMap = new HashMap<String, String>();
 		postMap.put("postid", postid+"");
 		postMap.put("username", user.getUsername());
-		postMap.put("time", new Date().getTime()+"");
+		postMap.put("time", RedisUtils.formateDate(new Date().getTime()+""));
 		postMap.put("content", content);
 		RedisUtils.hmset("post:postid:"+postid, postMap);
 		
+		String createTime =  new Date().getTime()+"";
 		RedisUtils.setKey("post:postid:"+postid+":userid", user.getId());
-		RedisUtils.setKey("post:postid:"+postid+":time", new Date().getTime()+"");
+		RedisUtils.setKey("post:postid:"+postid+":time", createTime);
 		RedisUtils.setKey("post:postid:"+postid+":content", content);
-		RedisUtils.sadd("post:poser:"+user.getId()+":postid", postid+"");
+		RedisUtils.zadd("post:poser:"+user.getId()+":postid", (double)postid,postid+"");
+		RedisUtils.lpush("newpostlist", postid+"");
+		response.setContentType("text/json;charset=utf-8");
 		 PrintWriter out = response.getWriter();
-		 out.print("1");
+		 out.print("{\"username\":\""+username+"\",\"content\":\""+content+"\",\"time\":\""+RedisUtils.formateDate(createTime)+"\"}");
+		 out.flush();
+		 out.close();
 	}
 
 }

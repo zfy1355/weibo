@@ -8,17 +8,13 @@
 
 
 <br><i>最新的50条微博!</i><br>
-<div class="post">
-
-<a class="username" href="profile.php?u=test">test</a>
-world<br>
-<i>22 分钟前 通过 web发布</i>
-</div>
 
 <div class="post">
-<a class="username" href="profile.php?u=test">${username}</a>
-hello<br>
-<i>22 分钟前 通过 web发布</i>
+<c:forEach items="${posts}" var="p">
+<c:set var="time"  value="${p.time }"></c:set>
+ <a class="username" href="profile?username=${p.username }">${p.username }</a> ${p.content }<br/>
+<i>${p.time }  通过 web发布</i><br/>
+</c:forEach> 
 </div>
 
 <%@include file="common/footer.jsp"%>

@@ -29,6 +29,7 @@ public class ProfileServlet extends BaseServlet{
 			}
 			boolean isFollowing = RedisUtils.getIsFollowing(username,user.getId());
 			request.setAttribute("isFollowing", isFollowing);
+			request.setAttribute("posts",RedisUtils.getPosts(user.getId(), username));
 			request.getRequestDispatcher("/profile.jsp").forward(request, response);
 	}
 	
