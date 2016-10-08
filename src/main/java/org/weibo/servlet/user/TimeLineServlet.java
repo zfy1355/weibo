@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.weibo.entity.Post;
 import org.weibo.service.PostService;
+import org.weibo.service.UserService;
 import org.weibo.util.RedisUtils;
 
 @WebServlet("/timeline")
 public class TimeLineServlet extends BaseServlet{
 	
 	PostService postService = new PostService();
+	UserService userService = new UserService();
 
 	private static final long serialVersionUID = 8089875410008505689L;
 	
@@ -26,7 +28,8 @@ public class TimeLineServlet extends BaseServlet{
 			List<String> postIds = RedisUtils.getNew50PostList();
 			List<Post> posts = new ArrayList<Post>();
 			for(String id:postIds){
-				Post p = postService.getPostById(id);
+				String username = userService.getUserById(RedisUtils.getKey("post:postid:"+id+":userid")).getUsername();
+				Post p = postService.getPostById(id,username);
 				posts.add(p);
 			}
 			request.setAttribute("users", users);

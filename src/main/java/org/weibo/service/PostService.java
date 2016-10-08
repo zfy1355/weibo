@@ -10,7 +10,6 @@ import org.weibo.entity.Post;
 import org.weibo.util.RedisUtils;
 
 public class PostService extends BaseService{
-	UserService userService = new UserService();
 	
 	public  Set<Post> getPosts(String userid,String username){
 		Set<String>postIds = RedisUtils.zrange("post:poser:"+userid+":postid",0,-1);
@@ -30,10 +29,10 @@ public class PostService extends BaseService{
 	}
 	
 		
-	public  Post getPostById(String id) {
+	public  Post getPostById(String id,String username) {
 		Post post = new Post();
 		post.setId(id);
-		post.setUsername(userService.getUserById(RedisUtils.getKey("post:postid:"+id+":userid")).getUsername());
+		post.setUsername(username);
 		post.setContent(RedisUtils.getKey("post:postid:"+id+":content"));
 		post.setTime(formateDate(RedisUtils.getKey("post:postid:"+id+":time")));
 		return post;
