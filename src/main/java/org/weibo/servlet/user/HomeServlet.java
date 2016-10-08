@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.weibo.entity.User;
-import org.weibo.util.RedisUtils;
+import org.weibo.service.UserService;
 
 @WebServlet("/home")
 public class HomeServlet extends BaseServlet{
+	UserService userService = new UserService();
 
 	private static final long serialVersionUID = 8089875410008505689L;
 	
@@ -24,7 +25,7 @@ public class HomeServlet extends BaseServlet{
 				if("username".equals(cookie.getName()))
 					username = cookie.getValue();
 			}
-			User user = RedisUtils.getUserByUsername(username);
+			User user = userService.getUserByUsername(username);
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("/home.jsp").forward(request, response);
 	}

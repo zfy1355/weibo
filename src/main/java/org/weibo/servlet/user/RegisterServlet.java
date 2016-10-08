@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.weibo.service.UserService;
 import org.weibo.util.RedisUtils;
 
 @WebServlet("/registerUser")
@@ -18,6 +19,7 @@ public class RegisterServlet extends BaseServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = 8089875410008505689L;
+	UserService userService = new UserService();
 	
 	public void doPost()
 			throws ServletException, IOException {
@@ -39,7 +41,7 @@ public class RegisterServlet extends BaseServlet{
 			writeOldAttribute(request);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}else{
-			RedisUtils.registerUser(username,password);
+			userService.registerUser(username,password);
 			Cookie cookie = new Cookie("username", username);
 			response.addCookie(cookie);
 			request.getRequestDispatcher("/home").forward(request, response);

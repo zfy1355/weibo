@@ -11,9 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 
 import org.weibo.entity.User;
+import org.weibo.service.PostService;
+import org.weibo.service.UserService;
 import org.weibo.servlet.user.BaseServlet;
 import org.weibo.util.RedisUtils;
-import org.weibo.util.SessionManager;
 
 @WebServlet("/post")
 public class PostServlet extends BaseServlet{
@@ -22,6 +23,9 @@ public class PostServlet extends BaseServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = -5447181731876963907L;
+	
+	PostService postService = new PostService();
+	UserService userService = new UserService();
 	
 	public void doPost() throws ServletException, IOException {
 		String content = request.getParameter("content");
@@ -32,13 +36,13 @@ public class PostServlet extends BaseServlet{
 			if("username".equals(cookie.getName()))
 				username = cookie.getValue();
 		}
-		User user = RedisUtils.getUserByUsername(username);
+		User user = userService.getUserByUsername(username);
 		
 		Long postid = RedisUtils.getIncr("global:postid");
 		Map<String,String> postMap = new HashMap<String, String>();
 		postMap.put("postid", postid+"");
 		postMap.put("username", user.getUsername());
-		postMap.put("time", RedisUtils.formateDate(new Date().getTime()+""));
+		postMap.put("time", userService.formateDate(new Date().getTime()+""));
 		postMap.put("content", content);
 		RedisUtils.hmset("post:postid:"+postid, postMap);
 		
@@ -50,10 +54,12 @@ public class PostServlet extends BaseServlet{
 		RedisUtils.lpush("newpostlist", postid+"");
 		response.setContentType("text/json;charset=utf-8");
 		 PrintWriter out = response.getWriter();
-		 out.print("{\"username\":\""+username+"\",\"content\":\""+content+"\",\"time\":\""+RedisUtils.formateDate(createTime)+"\"}");
+		 out.print("{\"username\":\""+username+"\",\"content\":\""+content+"\",\"time\":\""+userService.formateDate(createTime)+"\"}");
 		 out.flush();
 		 out.close();
 	}
+	
+	
 
 }
 

@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.weibo.entity.User;
+import org.weibo.service.PostService;
 import org.weibo.util.RedisUtils;
 
 @WebServlet("/profile")
 public class ProfileServlet extends BaseServlet{
+	PostService postService = new PostService();
 
 	private static final long serialVersionUID = 8089875410008505689L;
 	
@@ -29,7 +31,7 @@ public class ProfileServlet extends BaseServlet{
 			}
 			boolean isFollowing = RedisUtils.getIsFollowing(username,user.getId());
 			request.setAttribute("isFollowing", isFollowing);
-			request.setAttribute("posts",RedisUtils.getPosts(user.getId(), username));
+			request.setAttribute("posts",postService.getPosts(user.getId(), username));
 			request.getRequestDispatcher("/profile.jsp").forward(request, response);
 	}
 	

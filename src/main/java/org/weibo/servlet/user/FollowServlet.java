@@ -10,10 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.weibo.entity.User;
+import org.weibo.service.UserService;
 import org.weibo.util.RedisUtils;
 
 @WebServlet("follow")
 public class FollowServlet extends BaseServlet {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	UserService userService = new UserService();
 
 	@Override
 	public void doPost() throws ServletException, IOException {
@@ -25,7 +32,7 @@ public class FollowServlet extends BaseServlet {
 			if("username".equals(cookie.getName()))
 				username = cookie.getValue();
 		}
-		User user = RedisUtils.getUserByUsername(username);
+		User user = userService.getUserByUsername(username);
 		switch (type) {
 		case "1":
 			RedisUtils.follow(username,followingId);

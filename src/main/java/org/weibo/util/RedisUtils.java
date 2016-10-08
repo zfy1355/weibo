@@ -87,68 +87,6 @@ public class RedisUtils {
 		}
 	}
 	
-	public static User  getUserByUsername(String username) {
-		String userid = getKey("user:username:"+username+":userid");
-		if(StringUtils.isEmpty(userid))
-			return null;
-		User user = new User();
-		user.setFollowerC(Integer.parseInt(getKey("user:userid:"+userid+":followerC")==null?"0":getKey("user:userid:"+userid+":followerC")));
-		user.setFollowingC(Integer.parseInt(getKey("user:userid:"+userid+":followingC")==null?"0":getKey("user:userid:"+userid+":followingC")));
-		user.setUsername(username);
-		user.setId(userid);
-		user.setPassword(getKey("user:userid:"+userid+":password"));
-		user.setPosts(getPosts(userid,username));
-		return user;
-	}
-	
-	public static User  getUserById(String userid) {
-		if(StringUtils.isEmpty(userid))
-			return null;
-		User user = new User();
-		user.setFollowerC(Integer.parseInt(getKey("user:userid:"+userid+":followerC")==null?"0":getKey("user:userid:"+userid+":followerC")));
-		user.setFollowingC(Integer.parseInt(getKey("user:userid:"+userid+":followingC")==null?"0":getKey("user:userid:"+userid+":followingC")));
-		user.setUsername(getKey("user:userid:"+userid+":username"));
-		user.setId(userid);
-		user.setPassword(getKey("user:userid:"+userid+":password"));
-		user.setPosts(getPosts(userid,user.getUsername()));
-		return user;
-	}
-	
-	public static Set<Post> getPosts(String userid,String username){
-		Set<String>postIds = zrange("post:poser:"+userid+":postid",0,-1);
-		String id = null;
-		Set<Post> posts = new TreeSet<Post>();
-		for(Iterator<String> ids = postIds.iterator();ids.hasNext(); ){
-			id =ids.next();
-			Post post = new Post();
-			post.setContent(RedisUtils.getKey("post:postid:"+id+":content"));
-			post.setTime(formateDate(RedisUtils.getKey("post:postid:"+id+":time")));
-			post.setUsername(username);
-			post.setId(id);
-			posts.add(post);
-		}
-		return posts;
-		
-	}
-	
-	
-	
-	public static Post getPostById(String id) {
-		Post post = new Post();
-		post.setId(id);
-		post.setUsername(getUserById(getKey("post:postid:"+id+":userid")).getUsername());
-		post.setContent(getKey("post:postid:"+id+":content"));
-		post.setTime(formateDate(getKey("post:postid:"+id+":time")));
-		return post;
-	}
-	
-	public static void registerUser(String username, String password) {
-		Long id = RedisUtils.getIncr("userid");
-		RedisUtils.setKey("user:userid:"+ id+":username",username);
-		RedisUtils.setKey("user:userid:"+ id+":password",password);
-		RedisUtils.setKey("user:username:"+username+":userid", id+"");
-		RedisUtils.lpush("newuserlist", id+"");
-	}
 	
 	public static void follow(String username, String followingId) {
 		sadd("user:following:username:"+username, followingId);
@@ -313,40 +251,7 @@ public class RedisUtils {
 		}
 	}
 
-	public static String formateDate(String time){
-		long l = Long.parseLong(time);
-		long second = (new Date().getTime() - l)/1000;
-		String interval = null;
-		if(second == 0){
-			interval = "刚刚";
-		} else if(second <60){
-			interval = second + "秒以前";
-		} else if(second >=60 && second <60*60){
-			interval = second/60 + "分钟前";
-		} else if(second >= 60*60 && second <60 * 60 *24){
-			long hour = (second /60)/60;
-			if(hour <=3){
-				interval = hour + "小时前";
-			}else {
-				interval = "今天" + formateDate(l,"HH:mm");
-			}
-		} else if (second >=60 * 60 * 24 && second <= 60 * 60 * 24 *2){
-			interval = "昨天" + formateDate(l, "HH:mm");
-		} else if (second >= 60 * 60 * 24 *2 && second <=60*60*24*7){
-			long day = ((second /60)/60 /24);
-			interval = day + "天前";
-		} else if(second <=60 * 60 *24 *365 && second >=60*60 * 24 *7){
-			interval = formateDate(l , "MM-dd HH:mm");
-		} else if(second >= 60*60 * 24* 365){
-			interval = formateDate(l, "yyyy-MM-dd HH:mm");
-		}
-		return interval;
-	}
 	
-	public static String formateDate(long time, String formateType){
-		SimpleDateFormat sdf = new SimpleDateFormat(formateType);
-		return sdf.format(time);
-	}
 
 
 
