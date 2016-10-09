@@ -36,23 +36,13 @@ public class FollowServlet extends BaseServlet {
 		switch (type) {
 		case "1":
 			RedisUtils.follow(username,followingId);
-			if(RedisUtils.exist("user:userid:"+user.getId()+":followingC")){
-				RedisUtils.setKey("user:userid:"+user.getId()+":followingC", (Integer.parseInt(RedisUtils.getKey("user:userid:"+user.getId()+":followerC"))+1)+"");
-				RedisUtils.setKey("user:userid:"+followingId+":followerC", (Integer.parseInt(RedisUtils.getKey("user:userid:"+user.getId()+":followerC"))+1)+"");
-			}else{
-				RedisUtils.setKey("user:userid:"+user.getId()+":followingC","1" );
-				RedisUtils.setKey("user:userid:"+followingId+":followerC", "1");
-			}
+			RedisUtils.setKey("user:userid:"+user.getId()+":followingC", (userService.getfollowerCount(user.getId())+1)+"");
+			RedisUtils.setKey("user:userid:"+followingId+":followerC", (userService.getfollowingCount(followingId)+1)+"");
 			break;
 		default:
 			RedisUtils.unfollow(username,followingId);
-			if(RedisUtils.exist("user:userid:"+user.getId()+":followingC")){
-				RedisUtils.setKey("user:userid:"+user.getId()+":followingC", (Integer.parseInt(RedisUtils.getKey("user:userid:"+user.getId()+":followerC"))-1)+"");
-				RedisUtils.setKey("user:userid:"+followingId+":followerC", (Integer.parseInt(RedisUtils.getKey("user:userid:"+user.getId()+":followerC"))-1)+"");
-			}else{
-				RedisUtils.setKey("user:userid:"+user.getId()+":followingC","0" );
-				RedisUtils.setKey("user:userid:"+followingId+":followerC", "0");
-			}
+			RedisUtils.setKey("user:userid:"+user.getId()+":followingC", (userService.getfollowerCount(user.getId())-1)+"");
+			RedisUtils.setKey("user:userid:"+followingId+":followerC", (userService.getfollowingCount(followingId)-1)+"");
 			break;
 		}
 		 PrintWriter out = response.getWriter();

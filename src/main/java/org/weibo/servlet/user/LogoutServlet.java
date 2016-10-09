@@ -15,12 +15,8 @@ public class LogoutServlet extends BaseServlet{
 	
 	public void doPost()
 			throws ServletException, IOException {
-			Cookie[] cookies = request.getCookies();
-			String username = null;
-			for(Cookie cookie : cookies){
-				if("username".equals(cookie.getName()))
-					username = cookie.getValue();
-			}
+			Cookie cookie = new Cookie("username", "");
+			response.addCookie(cookie);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}
 	

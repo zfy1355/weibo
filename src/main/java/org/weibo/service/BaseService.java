@@ -1,11 +1,14 @@
 package org.weibo.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class BaseService {
 	public  String formateDate(String time){
 		long l = Long.parseLong(time);
+		Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(l);
 		long second = (new Date().getTime() - l)/1000;
 		String interval = null;
 		if(second == 0){
@@ -14,14 +17,14 @@ public class BaseService {
 			interval = second + "秒以前";
 		} else if(second >=60 && second <60*60){
 			interval = second/60 + "分钟前";
-		} else if(second >= 60*60 && second <60 * 60 *24){
+		} else if(second >= 60*60 && second <60 * 60 *24 &&(c.get(Calendar.DATE)-Calendar.getInstance().get(Calendar.DATE))==0){
 			long hour = (second /60)/60;
 			if(hour <=3){
 				interval = hour + "小时前";
 			}else {
 				interval = "今天" + formateDate(l,"HH:mm");
 			}
-		} else if (second >=60 * 60 * 24 && second <= 60 * 60 * 24 *2){
+		} else if ((second >=60 * 60 * 24 && second <= 60 * 60 * 24 *2) ||(c.get(Calendar.DATE)-Calendar.getInstance().get(Calendar.DATE))==-1){
 			interval = "昨天" + formateDate(l, "HH:mm");
 		} else if (second >= 60 * 60 * 24 *2 && second <=60*60*24*7){
 			long day = ((second /60)/60 /24);

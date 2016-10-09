@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,10 +21,18 @@ public class ProfileServlet extends BaseServlet{
 	public void doPost()
 			throws ServletException, IOException {
 			User user  = getUser(request.getParameter("username"));
+			Cookie[] cookies = request.getCookies();
+			String username = null;
+			for(Cookie cookie : cookies){
+				if("username".equals(cookie.getName()))
+					username = cookie.getValue();
+			}
+			
 			request.setAttribute("user", user);
 			
-			boolean isFollowing = RedisUtils.getIsFollowing(user.getUsername(),user.getId());
+			boolean isFollowing = RedisUtils.getIsFollowing(username,user.getId());
 			request.setAttribute("isFollowing", isFollowing);
+			request.setAttribute("isUser", username.equals(user.getUsername()));
 			request.setAttribute("posts",postService.getPosts(user.getId(), user.getUsername()));
 			request.getRequestDispatcher("/profile.jsp").forward(request, response);
 	}

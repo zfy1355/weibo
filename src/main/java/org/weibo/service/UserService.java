@@ -42,4 +42,14 @@ public class UserService extends BaseService{
 		RedisUtils.lpush("newuserlist", id+"");
 	}
 	
+	public int getfollowerCount(String userid){
+		String c = RedisUtils.getKey("user:userid:"+userid+":followingC");
+		return Integer.parseInt(c == null ? "0" : c );
+	}
+	
+	public int getfollowingCount(String userid){
+		String c = RedisUtils.getKey("user:userid:"+userid+":followerC");
+		return Integer.parseInt(c == null ? "0" : c  );
+	}
+	
 }
