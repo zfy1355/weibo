@@ -35,7 +35,7 @@
 <ul>
 <li>Redis 是一种key-value 数据库, 而且是本项目中 <b>唯一</b>使用的数据库, 没有用mysql等.</li>
 <li>应用程序可以通过一致性哈希轻易的部署多台服务器</li>
-<li>PHP与redis服务器的连接用pecl的官方扩展<a href="pecl.php.net/package/redis">php-redis</a>
+<li>本程序使用Jedis做的小程序，不完善之处敬请谅解！</a>
 </ul>
 </div>
 <%@include file="common/footer.jsp" %>
